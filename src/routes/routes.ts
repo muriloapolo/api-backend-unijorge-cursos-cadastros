@@ -1,6 +1,11 @@
 import { Router, type Request, type Response } from "express";
 import cursos from "../data/cursos.ts";
+import type { Cadastro } from "../types/InterFaceCadastro.ts";
 import cadastros from "../data/cadastros.ts";
+
+
+
+
 
 const routes = Router();
 
@@ -14,8 +19,10 @@ routes.get("/", async (req: Request, res: Response) => {
 });
 
 //Recuperar Cadastros
+
 //Get Cadastros
-routes.get("/cadastros", (req:Request, res:Response) => {    
+routes.get("/cadastros", (req:Request, res:Response) => {  
+
     //res.json(JSON.stringify(cadastros));
     res.json(cadastros);
 });
@@ -23,20 +30,23 @@ routes.get("/cadastros", (req:Request, res:Response) => {
 
 // Rota POST
 routes.post("/dados", (req: Request, res: Response) => {
-    const { nome, email, curso } = req.body;
+
+    //Verificando informações via interface
+    const { nome, email, curso }: Cadastro = req.body; //Cadastro é a interface que parece uma classe sem sal
     if (!nome || !email || !curso) {
-        return res.status(400).json({ error: "Nome email e curso são obrigatórios" });
+       return res.status(400).json({ error: "Nome, email e curso são obrigatórios" });
     }
     // Verifica se o email é válido (regex simples)
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //     return res.status(400).json({ error: "Email inválido." });
-    // }
+    //Simples pq eu copiei da internet, não sei quem entende isso
+     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+     if (!emailRegex.test(email)) {
+          return res.status(400).json({ error: "Email inválido." });
+    }
 
     // Se tudo ok, retorna sucesso
-    cadastros.push(req.body); 
+    cadastros.push({nome, email, curso}); 
     console.log(cadastros)   
-    return res.status(200).json({ message: "Dados recebidos com sucesso!", nome, email, curso });
+   return res.status(201).json({ message: "Cadastro criado com sucesso!", nome, email, curso });
 });
 
 export default routes;

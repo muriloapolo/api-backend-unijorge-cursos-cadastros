@@ -28,14 +28,13 @@ Este projeto é uma API criada com Express, TypeScript e Node.js.
 - **Desenvolvimento:**  
   Inicia o servidor com reload do nodemon que atualiza a cada modificação:
 
-
   ```sh
   npm run dev
   ```
 
 - **Produção:**  
   Compila o TypeScript e inicia o servidor:
-    Não indico pois não aprendi isso aqui ainda.
+  Não indico pois não aprendi isso aqui ainda.
 
   ```sh
   npm run build
